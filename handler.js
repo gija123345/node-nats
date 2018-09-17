@@ -6,7 +6,7 @@ const util = require('util');
 class NatsTransport extends Transport {
   constructor(opts) {
     super(opts);
-    var NATS = require('nats');    
+    var NATS = require('nats');
     this.nats = NATS.connect();
   }
 
@@ -45,8 +45,9 @@ const logger = winston.createLogger({
 });
 
 function errorHandler() {
-  this.handleError = function (error) {
+  this.handleError = function (error, reqObj) {
     logger.log({
+      'requestObject': reqObj,
       'level': 'error', 
       'message': error.message, 
       'trace': error.stack,

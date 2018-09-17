@@ -9,12 +9,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 routes(app);
 
+// Middle-ware for errorHandler
 app.use(function errorHandler (err, req, res, next) {
+  
   if (err) {
-    errorhandler.handleError(err);
+
+    let reqObj = fetchReq(req);
+
+    errorhandler.handleError(err,reqObj);
     res.status(500).send({ 'error': err.message, 'trace': err.stack });
   }
 });
+
+function fetchReq(req) {
+
+    return {
+      "body": req.body,
+      "cookies": req.cookies,
+      "headers": req.headers,
+      "files": req.files,
+      "originalUrl": req.originalUrl,
+      "params": req.params,
+      "routePath": req.route.path,
+      "routeMethods": req.route.methods,
+      "signedCookies": req.signedCookies,
+      "url": req.url
+    };
+}
 
 // Test Uncaught Exception
 // console.log(a);
