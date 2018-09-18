@@ -13,16 +13,13 @@ routes(app);
 app.use(function errorHandler (err, req, res, next) {
   
   if (err) {
-
     let reqObj = fetchReq(req);
-
     errorhandler.handleError(err,reqObj);
     res.status(500).send({ 'error': err.message, 'trace': err.stack });
   }
 });
 
 function fetchReq(req) {
-
     return {
       "body": req.body,
       "cookies": req.cookies,
